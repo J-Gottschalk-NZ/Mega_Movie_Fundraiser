@@ -1,4 +1,3 @@
-
 profit = 0
 
 name = ""
@@ -20,7 +19,6 @@ while name != "xxx":
         ticket_price = 6.5
 
     profit_made = ticket_price - 5
-
     profit += profit_made
 
     print("{} : ${:.2f}".format(name, ticket_price))
