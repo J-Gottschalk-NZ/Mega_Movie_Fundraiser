@@ -1,10 +1,10 @@
 # function goes here
 
 
-def int_check(question, low_num, high_num):
+# Checks for an integer more than 0
+def int_check(question):
 
-    error = "Please enter a whole number between {} " \
-            "and {}".format(low_num, high_num)
+    error = "Please enter a whole number that is more than 0"
 
     valid = False
     while not valid:
@@ -13,14 +13,14 @@ def int_check(question, low_num, high_num):
         try:
             response = int(input(question))
 
-            if low_num <= response <= high_num:
-                return response
-            else:
+            if response <= 0:
                 print(error)
+            else:
+                return response
 
         # if an integer is not entered, display an error message
         except ValueError:
             print(error)
 
 # main routine goes here
-age = int_check("Age: ", 12, 130)
+age = int_check("Age: ")
