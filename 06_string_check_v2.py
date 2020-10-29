@@ -6,7 +6,8 @@
 valid_snacks = [
     ["popcorn", "p", "corn", "a"],
     ["M&M's", "m&m's", "mms", "m", "b"],    # first item is M&M's for inclusion in output
-    ["pita chips", "chips", "pc", "pita", "c"]
+    ["pita chips", "chips", "pc", "pita", "c"],
+    ["water", "w", "d"]
 ]
 
 # initialise variables
