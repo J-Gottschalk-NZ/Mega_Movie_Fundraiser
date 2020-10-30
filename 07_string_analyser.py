@@ -32,4 +32,4 @@ for item in test_strings:
     # print order
     print("Amount:", amount)
     print("Snack: ", desired_snack)
-    print("Lenght of snack:", len(desired_snack))
+    print("Length of snack:", len(desired_snack))
