@@ -16,22 +16,26 @@ data = {'Snack':  ['Popcorn', 'M&Ms','Pita Chips', 'Orange Juice', 'Water'],
         'Amount': [0, 0, 0, 0, 0]
         }
 
-df = pandas.DataFrame(data, columns=['Snack', 'Amount'])
+df_i = pandas.DataFrame(data, columns=['Snack', 'Amount'])
 
-print(df)
+print(df_i)
 
 print()
 
-# identify row using index and change it
-df.at[4, 'Amount'] = 5
+# Sets index to snack name
+# Making editing easier
+df_i = df_i.set_index('Snack')
 
-print(df)
+# identify row using index and change it
+df_i.at['Pita Chips', 'Amount'] = 5
+
+print(df_i)
 
 print()
 
 print("*** add to popcorn count ***")
-popcorn_count = df.at[0, 'Amount']
+popcorn_count = df_i.at['Popcorn', 'Amount']
 popcorn_count += 3
-df.at[0, 'Amount'] = popcorn_count
+df_i.at['Popcorn', 'Amount'] = popcorn_count
 
-print(df)
+print(df_i)
