@@ -1,4 +1,6 @@
 #  import statements
+import re
+import pandas
 
 
 # functions go here
@@ -57,6 +59,30 @@ def check_tickets(tickets_sold, ticket_limit):
     return ""
 
 
+# Gets ticket price based on age
+def get_ticket_price():
+
+    # Get age (between 12 and 130
+    age = int_check("Age: ")
+
+    # check that age is valid...
+    if age < 12:
+        print("Sorry you are too young for this movie")
+        return "invalid ticket price"
+    elif age > 130:
+        print("That is very old - it looks like a mistake")
+        return "invalid ticket price"
+
+    if age < 16:
+        ticket_price = 7.5
+    elif age < 65:
+        ticket_price = 10.5
+    else:
+        ticket_price = 6.5
+
+    return ticket_price
+
+
 # ********** Main Routine ************
 
 # Set up dictionaries / lists needed to hold data
@@ -73,6 +99,17 @@ name = ""
 ticket_count = 0
 ticket_sales = 0
 
+# Initialise lists (to make data-frame in due course)
+all_names = []
+all_tickets = []
+
+
+# Data Frame Dictionary
+movie_data_dict = {
+    'Name': all_names,
+    'Ticket': all_tickets
+}
+
 while name != "xxx" and ticket_count < MAX_TICKETS:
 
     # check numbers of ticket limit has not been exceeded...
@@ -87,28 +124,24 @@ while name != "xxx" and ticket_count < MAX_TICKETS:
     if name == "xxx":
         break
 
-    # Get age (between 12 and 130
-    age = int_check("Age: ")
-
-    # check that age is valid...
-    if age < 12:
-        print("Sorry you are too young for this movie")
+    # Get ticket price based on age
+    ticket_price = get_ticket_price()
+    if ticket_price == "invalid ticket price":
         continue
-    elif age > 130:
-        print("That is very old - it looks like a mistake")
-        continue
-
-    if age < 16:
-        ticket_price = 7.5
-    elif age < 65:
-        ticket_price = 10.5
-    else:
-        ticket_price = 6.5
 
     ticket_count += 1
     ticket_sales += ticket_price
 
+    # add name and ticket price to lists
+    all_names.append(name)
+    all_tickets.append(ticket_price)
+
 # End of tickets loop
+
+# print details...
+movie_frame = pandas.DataFrame(movie_data_dict)
+print(movie_frame)
+
 # Calculate ticket profit...
 ticket_profit = ticket_sales - (5 * ticket_count)
 print("Ticket profit: ${:.2f}".format(ticket_profit))
