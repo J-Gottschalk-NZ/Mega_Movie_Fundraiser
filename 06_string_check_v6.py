@@ -94,11 +94,13 @@ if check_snack == "Yes":
             snack_choice = "invalid choice"
 
         # add snack AND amount to list...
-        amount_snack = "{} {}".format(amount, snack_choice)
+        snack_row = []
+        snack_row.append(amount)
+        snack_row.append(snack_choice)
 
         # check that snack is not the exit code before adding
         if snack_choice != "xxx" and snack_choice != "invalid choice":
-            snack_order.append(amount_snack)
+            snack_order.append(snack_row)
 
 # Show snack orders
 print()
@@ -108,8 +110,11 @@ if len(snack_order) == 0:
 else:
     print("Snacks Ordered:")
 
-    for item in snack_order:
+    ''' for item in snack_order:
         print(item)
+        '''
+
+    print(snack_order)
 
 
 
