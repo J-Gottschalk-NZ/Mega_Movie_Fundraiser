@@ -122,11 +122,6 @@ if len(get_order) == 0:
 
 else:
     print("Snacks Ordered:")
-
-    ''' for item in snack_order:
-        print(item)
-        '''
-
     print(get_order)
 
 
