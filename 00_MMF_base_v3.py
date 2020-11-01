@@ -87,11 +87,6 @@ def get_ticket_price():
 
 # Set up dictionaries / lists needed to hold data
 
-# Ask user if they have used the program before & show instructions if necessary
-
-# Loop to get ticket details
-# start of loop
-
 # initialise loop so that it runs at least once
 MAX_TICKETS = 5
 
@@ -110,6 +105,10 @@ movie_data_dict = {
     'Ticket': all_tickets
 }
 
+
+# Ask user if they have used the program before & show instructions if necessary
+
+# Loop to get ticket details
 while name != "xxx" and ticket_count < MAX_TICKETS:
 
     # check numbers of ticket limit has not been exceeded...
@@ -126,6 +125,7 @@ while name != "xxx" and ticket_count < MAX_TICKETS:
 
     # Get ticket price based on age
     ticket_price = get_ticket_price()
+    # If age is invalid, restart loop (and get name again)
     if ticket_price == "invalid ticket price":
         continue
 
@@ -136,7 +136,11 @@ while name != "xxx" and ticket_count < MAX_TICKETS:
     all_names.append(name)
     all_tickets.append(ticket_price)
 
-# End of tickets loop
+    # Get snacks
+
+    # Get payment method (ie: work out if surcharge is needed)
+
+# End of tickets / snacks / payment loop
 
 # print details...
 movie_frame = pandas.DataFrame(movie_data_dict)
