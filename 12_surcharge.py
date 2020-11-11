@@ -48,7 +48,6 @@ while name != "xxx":
         break
 
     # Ask for payment method
-    # ask user if they want a snack
     how_pay = "invalid choice"
     while how_pay == "invalid choice":
         how_pay = input("Please choose a payment method (cash / credit)? ").lower()
