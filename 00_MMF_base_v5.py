@@ -200,6 +200,8 @@ ticket_sales = 0
 # Initialise lists (to make data-frame in due course)
 all_names = []
 all_tickets = []
+
+# Snack lists...
 popcorn = []
 mms = []
 pita_chips = []
@@ -207,6 +209,9 @@ water = []
 orange_juice = []
 
 snack_lists = [popcorn, mms, pita_chips, water, orange_juice]
+
+# store surcharge multiplier
+surcharge_mult_list = []
 
 
 # Data Frame Dictionary
@@ -217,7 +222,8 @@ movie_data_dict = {
     'Water': water,
     'Pita Chips': pita_chips,
     'M&Ms': mms,
-    'Orange Juice': orange_juice
+    'Orange Juice': orange_juice,
+    'Surcharge_Multiplier': surcharge_mult_list
 }
 
 # cost of each snack
@@ -295,6 +301,8 @@ while name != "xxx" and ticket_count < MAX_TICKETS:
     else:
         surcharge_multiplier = 0
 
+    surcharge_mult_list.append(surcharge_multiplier)
+
 # End of tickets / snacks / payment loop
 
 # print details...
@@ -304,7 +312,6 @@ movie_frame = movie_frame.set_index('Name')
 
 # create column called 'Sub Total'
 # fill it price for snacks and ticket
-
 movie_frame["Sub Total"] = \
     movie_frame['Ticket'] + \
     movie_frame['Popcorn']*price_dict['Popcorn'] + \
@@ -313,11 +320,29 @@ movie_frame["Sub Total"] = \
     movie_frame['M&Ms']*price_dict['M&Ms'] + \
     movie_frame['Orange Juice']*price_dict['Orange Juice']
 
+movie_frame["Surcharge"] = \
+    movie_frame["Sub Total"] * movie_frame["Surcharge_Multiplier"]
+
+movie_frame["Total"] = movie_frame["Sub Total"] + \
+    movie_frame['Surcharge']
+
 # Shorten column names
 movie_frame = movie_frame.rename(columns={'Orange Juice': 'OJ',
-                                          'Pita Chips': 'Chips'})
+                                          'Pita Chips': 'Chips',
+                                          'Surcharge_Multiplier': 'SM'})
 
-print(movie_frame)
+# Set up columns to be printed...
+pandas.set_option('display.max_columns', None)
+
+# Display numbers to 2 dp...
+pandas.set_option('precision', 2)
+
+print_all = input("Print all columns?? (y) for yes ")       # replace with function call!!
+if print_all == "y":
+    print(movie_frame)
+else:
+    print(movie_frame[['Ticket', 'Sub Total',
+                       'Surcharge', 'Total']])
 
 
 # Calculate ticket profit...
@@ -332,20 +357,5 @@ else:
           "There are {} places still available"
           .format(ticket_count, MAX_TICKETS - ticket_count))
 
-
-
-
-
-
-    # Calculate ticket price
-
-    # Loop to ask for snacks
-
-    # Calculate snack price
-
-    # ask for payment method (and apply surcharge if necesary)
-
-
-# Calculate Total sales and profit
 
 # Output data to text file
