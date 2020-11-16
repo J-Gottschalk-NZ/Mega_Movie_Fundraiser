@@ -82,6 +82,7 @@ def get_ticket_price():
     return ticket_price
 
 
+# Checks user response one of a range of values
 def string_check(choice, options):
 
     is_valid = ""
@@ -172,6 +173,10 @@ def get_snack():
         if snack_choice != "xxx" and snack_choice != "invalid choice":
             snack_order.append(snack_row)
 
+
+# currency formatting function
+def currency(x):
+    return "${:.2f}".format(x)
 
 # ********** Main Routine ************
 
@@ -328,16 +333,19 @@ movie_frame["Surcharge"] = \
 movie_frame["Total"] = movie_frame["Sub Total"] + \
     movie_frame['Surcharge']
 
+# Totals numeric columns only
 movie_frame.loc["Total"] = movie_frame.sum(numeric_only=True)
-movie_frame.to_csv("ticket_details.csv", float_format='%.2f')
 
 # Shorten column names
 movie_frame = movie_frame.rename(columns={'Orange Juice': 'OJ',
                                           'Pita Chips': 'Chips',
                                           'Surcharge_Multiplier': 'SM'})
-
 # Set up summary dataframe
 # populate snack items...
+print("*** here be snacks ***")
+print(snack_lists)
+print()
+
 for item in snack_lists:
     # sum items in each snack list
     summary_data.append(sum(item))
@@ -346,34 +354,45 @@ for item in snack_lists:
 # Get snack total from panda
 snack_total = movie_frame['Snacks'].sum()
 snack_profit = snack_total * 0.2
-summary_data.append(snack_profit)
 
 # Get Ticket profit and add to list
 ticket_profit = ticket_sales - (5 * ticket_count)
-summary_data.append(ticket_profit)
 
 # Work out total profit and add to list
 total_profit = snack_profit + ticket_profit
-summary_data.append(total_profit)
+
+# format dollar amounts and add to list...
+dollar_amounts = [snack_profit, ticket_profit, total_profit]
+for item in dollar_amounts:
+    item = "${:.2f}".format(item)
+    summary_data.append(item)
 
 # Create summary frame
 summary_frame = pandas.DataFrame(summary_data_dict)
 summary_frame = summary_frame.set_index('Item')
 
-# Write Summary frame to file
-summary_frame.to_csv("snack_summary.csv", float_format='%.2f')
-
 # Set up columns to be printed...
 pandas.set_option('display.max_columns', None)
 
-# Display numbers to 2 dp...
-pandas.set_option('precision', 2)
-pandas.option_context('display.float_format', '${:,.2f}'.format)
+# *** Pre Printing / Export ***
+
+# Format currency values so they have $'s
+
+# Ticket Details Formatting...
+add_dollars = ['Ticket', 'Snacks', 'Surcharge', 'Total', 'Sub Total']
+for item in add_dollars:
+    movie_frame[item] = movie_frame[item].apply(currency)
+
+# Write BOTH frames to csv
+movie_frame.to_csv("ticket_details.csv", float_format='%.2f')
+summary_frame.to_csv("snack_summary.csv", float_format='%.2f')
 
 print()
 print("*** Ticket / Snack Information ***")
 print("Note: for full details, please see the excel file called 'Ticket_Snack_Details'.")
 print()
+
+# Format currency
 print(movie_frame[['Ticket', 'Snacks', 'Sub Total',
                    'Surcharge', 'Total']])
 

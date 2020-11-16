@@ -1,4 +1,4 @@
-Name,Ticket,Popcorn,Water,Pita Chips,M&Ms,Orange Juice,Surcharge_Multiplier,Snacks,Sub Total,Surcharge,Total
-Mike,10.50,2.00,0.00,0.00,0.00,2.00,0.00,11.50,22.00,0.00,22.00
-James,10.50,0.00,2.00,1.00,1.00,0.00,0.05,11.50,22.00,1.10,23.10
-Total,21.00,2.00,2.00,1.00,1.00,2.00,0.05,23.00,44.00,1.10,45.10
+Name,Ticket,Popcorn,Water,Chips,M&Ms,OJ,SM,Snacks,Sub Total,Surcharge,Total
+James,$10.50,1.00,1.00,0.00,0.00,1.00,0.05,$7.75,$18.25,$0.91,$19.16
+Mike,$10.50,0.00,2.00,0.00,1.00,0.00,0.00,$7.00,$17.50,$0.00,$17.50
+Total,$21.00,1.00,3.00,0.00,1.00,1.00,0.05,$14.75,$35.75,$0.91,$36.66
