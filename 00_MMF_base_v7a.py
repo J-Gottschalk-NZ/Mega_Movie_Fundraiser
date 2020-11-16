@@ -124,7 +124,7 @@ def get_snack():
 
     valid_snacks = [
     ["popcorn", "p", "pop", "corn", "a"],
-    ["M&Ms", "m&m's", "mms", "mm", "m", "b"],    # first item is M&Ms for inclusion in output
+    ["M&Ms", "m&m's", "mms", "m", "mm", "b"],    # first item is M&Ms for inclusion in output
     ["pita chips", "chips", "pc", "pita", "c"],
     ["water", "w", "h20", "d"],
     ["orange juice", "oj", "o", "juice", "orange", "e"]
@@ -213,7 +213,7 @@ snack_lists = [popcorn, mms, pita_chips, water, orange_juice]
 # store surcharge multiplier
 surcharge_mult_list = []
 
-# Lists to store summary data...
+# Stores summary data
 summary_headings = ["Popcorn", "M&M's", "Pita Chips", "Water",
                     "Orange Juice", "Snack Profit", "Ticket Profit",
                     "Total Profit"]
@@ -277,6 +277,11 @@ while name != "xxx" and ticket_count < MAX_TICKETS:
     all_tickets.append(ticket_price)
 
     # Get snacks
+    # ask user if they want a snack
+    print("Choose your snacks.  Type 'xxx' if when done."
+          "If you don't want a snack, just type 'n' or 'xxx'")
+
+    # If they say yes, ask what snacks they want (and add to our snack list)
     snack_order = get_snack()
 
     # Assume no snacks have been bought...
@@ -310,8 +315,7 @@ while name != "xxx" and ticket_count < MAX_TICKETS:
 movie_frame = pandas.DataFrame(movie_data_dict)
 movie_frame = movie_frame.set_index('Name')
 
-# create column called 'Sub Total'
-# fill it price for snacks and ticket
+# Find price of snacks
 movie_frame["Snacks"] = \
     movie_frame['Popcorn']*price_dict['Popcorn'] + \
     movie_frame['Water']*price_dict['Water'] + \
@@ -319,13 +323,16 @@ movie_frame["Snacks"] = \
     movie_frame['M&Ms']*price_dict['M&Ms'] + \
     movie_frame['Orange Juice']*price_dict['Orange Juice']
 
+# Add price of snacks and tickets together (sub total)
 movie_frame["Sub Total"] = \
     movie_frame['Ticket'] + \
     movie_frame['Snacks']
 
+# Calculate surcharge and add to movie frame as a separate column
 movie_frame["Surcharge"] = \
     movie_frame["Sub Total"] * movie_frame["Surcharge_Multiplier"]
 
+# Calculate Total (subtotal + surcharge)
 movie_frame["Total"] = movie_frame["Sub Total"] + \
     movie_frame['Surcharge']
 
@@ -354,6 +361,7 @@ summary_data.append(ticket_profit)
 total_profit = snack_profit + ticket_profit
 summary_data.append(total_profit)
 
+
 # Create summary frame
 summary_frame = pandas.DataFrame(summary_data_dict)
 summary_frame = summary_frame.set_index('Item')
@@ -369,7 +377,7 @@ print("*** Ticket / Snack Information ***")
 print("Note: for full details, please see the excel file called 'Ticket_Snack_Details'.")
 print()
 print(movie_frame[['Ticket', 'Snacks', 'Sub Total',
-                   'Surcharge', 'Total']])
+                       'Surcharge', 'Total']])
 
 print()
 
