@@ -3,7 +3,7 @@ import re
 import pandas
 
 
-# ***** functions go here *****
+# functions go here
 
 # checks that ticket name is not blank
 def not_blank(question):
@@ -83,7 +83,6 @@ def get_ticket_price():
     return ticket_price
 
 
-# Checks user response one of a range of values
 def string_check(choice, options):
 
     is_valid = ""
@@ -179,6 +178,23 @@ def get_snack():
 def currency(x):
     return "${:.2f}".format(x)
 
+
+# Function to show instructions if necessary
+def instructions(options):
+    show_help = "invalid choice"
+    while show_help == "invalid choice":
+        show_help = input("Would you like to read the instructions? ").lower()
+        show_help = string_check(show_help, options)
+
+    if show_help == "Yes":
+        print()
+        print("**** Mega Movie Fundraiser Instructions ****")
+        print()
+        print("Instructions go here.  They are brief but helpful")
+
+    return ""
+
+
 # ********** Main Routine ************
 
 # Set up dictionaries / lists needed to hold data
@@ -196,7 +212,7 @@ pay_method = [
 ]
 
 # initialise loop so that it runs at least once
-MAX_TICKETS = 5
+MAX_TICKETS = 10
 
 name = ""
 ticket_count = 0
@@ -252,6 +268,7 @@ price_dict = {
 }
 
 # Ask user if they have used the program before & show instructions if necessary
+instructions(yes_no)
 
 # Loop to get ticket details
 while name != "xxx" and ticket_count < MAX_TICKETS:
@@ -334,19 +351,19 @@ movie_frame["Surcharge"] = \
 movie_frame["Total"] = movie_frame["Sub Total"] + \
     movie_frame['Surcharge']
 
-# Totals numeric columns only
-movie_frame.loc["Total"] = movie_frame.sum(numeric_only=True)
-
 # Shorten column names
 movie_frame = movie_frame.rename(columns={'Orange Juice': 'OJ',
                                           'Pita Chips': 'Chips',
                                           'Surcharge_Multiplier': 'SM'})
+
 # Set up summary dataframe
+# populate snack items...
 for item in snack_lists:
     # sum items in each snack list
     summary_data.append(sum(item))
 
-# Get snack total from panda (calculate profit)
+# Get snack profit
+# Get snack total from panda
 snack_total = movie_frame['Snacks'].sum()
 snack_profit = snack_total * 0.2
 
@@ -376,15 +393,13 @@ for item in add_dollars:
     movie_frame[item] = movie_frame[item].apply(currency)
 
 # Write each frame to a separate csv files
-movie_frame.to_csv("ticket_details.csv", float_format='%.2f')
-summary_frame.to_csv("snack_summary.csv", float_format='%.2f')
+movie_frame.to_csv("ticket_details.csv")
+summary_frame.to_csv("snack_summary.csv")
 
 print()
 print("*** Ticket / Snack Information ***")
 print("Note: for full details, please see the excel file called 'Ticket_Snack_Details'.")
 print()
-
-# Format currency
 print(movie_frame[['Ticket', 'Snacks', 'Sub Total',
                    'Surcharge', 'Total']])
 
@@ -394,7 +409,6 @@ print("*** Snack / Profit Summary ****")
 print()
 print(summary_frame)
 
-print()
 # Tell user if they have unsold tickets...
 if ticket_count == MAX_TICKETS:
     print("You have sold all the available tickets!")
